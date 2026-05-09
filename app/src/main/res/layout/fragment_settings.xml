@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_settings"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"/>
+
+        <!-- Lautstärke -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_volume" android:textStyle="bold"/>
+            <TextView android:id="@+id/txtVolumeVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="50%"/>
+        </LinearLayout>
+        <SeekBar android:id="@+id/volumeSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="100" android:progress="50" android:layout_marginBottom="16dp"/>
+
+        <!-- Stille -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_silence" android:textStyle="bold"/>
+            <TextView android:id="@+id/txtSilenceVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="250"/>
+        </LinearLayout>
+        <SeekBar android:id="@+id/silenceSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="1000" android:progress="250" android:layout_marginBottom="16dp"/>
+
+        <!-- Schnarchen -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_snore" android:textStyle="bold"/>
+            <TextView android:id="@+id/txtSnoreVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1200"/>
+        </LinearLayout>
+        <SeekBar android:id="@+id/snoreSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="5000" android:progress="1200" android:layout_marginBottom="16dp"/>
+
+        <!-- Atempause -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_trigger" android:textStyle="bold"/>
+            <TextView android:id="@+id/txtTriggerVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12s"/>
+        </LinearLayout>
+        <SeekBar android:id="@+id/triggerSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:min="5" android:max="30" android:progress="12" android:layout_marginBottom="16dp"/>
+
+        <!-- Abklingzeit -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_cooldown" android:textStyle="bold"/>
+            <TextView android:id="@+id/txtCooldownVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15m"/>
+        </LinearLayout>
+        <SeekBar android:id="@+id/cooldownSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:min="1" android:max="60" android:progress="15" android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnResetSettings"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_reset"
+            android:backgroundTint="#9E9E9E"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hinweis: Einstellungen werden beim Start des Wächters übernommen."
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:gravity="center"/>
+    </LinearLayout>
+</ScrollView>

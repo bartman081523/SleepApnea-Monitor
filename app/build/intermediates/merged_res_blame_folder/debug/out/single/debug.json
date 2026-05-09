@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.example.apnea.app-merged_res-28:/layout_fragment_dashboard.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "com.example.apnea.app-merged_res-28:/layout_fragment_history.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/fragment_history.xml"
+    },
+    {
+        "merged": "com.example.apnea.app-merged_res-28:/layout_fragment_settings.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.example.apnea.app-merged_res-28:/layout_activity_main.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/activity_main.xml"
+    }
+]

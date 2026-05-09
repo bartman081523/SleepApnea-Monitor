@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status_ready"
+                    android:textSize="20sp"
+                    android:textColor="#444444"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/detailStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Warte auf Start..."
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_start"
+            android:backgroundTint="#4CAF50"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnTest"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_test"
+            android:backgroundTint="#FF9800"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchAutoRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_auto_record"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"
+            android:checked="false" />
+
+        <Button
+            android:id="@+id/btnStopAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_stop_alarm"
+            android:backgroundTint="#2196F3"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_stop"
+            android:backgroundTint="#F44336"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/btn_exit"
+            android:backgroundTint="#607D8B"
+            android:textSize="18sp"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:id="@+id/logDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log: ---"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:padding="8dp"
+            android:background="#EEEEEE"/>
+    </LinearLayout>
+</ScrollView>

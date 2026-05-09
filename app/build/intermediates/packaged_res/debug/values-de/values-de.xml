@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Apnoe Wächter</string>
+    <string name="btn_exit">Beenden</string>
+    <string name="btn_reset">Standardwerte</string>
+    <string name="btn_start">Überwachung starten</string>
+    <string name="btn_stop">Dienst stoppen</string>
+    <string name="btn_stop_alarm">Alarm stoppen</string>
+    <string name="btn_test">Test Modus</string>
+    <string name="history_no_data">Keine Aufnahmen gefunden</string>
+    <string name="history_title">Aufgezeichnete Nächte</string>
+    <string name="settings_cooldown">Abklingphase (m)</string>
+    <string name="settings_silence">Stille-Schwelle (RMS)</string>
+    <string name="settings_snore">Schnarch-Schwelle (RMS)</string>
+    <string name="settings_trigger">Auslöse-Dauer (s)</string>
+    <string name="settings_volume">Alarm Lautstärke</string>
+    <string name="status_ready">BEREIT</string>
+    <string name="status_stopped">Wird gestoppt...</string>
+    <string name="switch_auto_record">Audio auto-aufzeichnen</string>
+    <string name="tab_dashboard">DASHBOARD</string>
+    <string name="tab_history">AUSWERTUNG</string>
+    <string name="tab_settings">EINSTELLUNGEN</string>
+</resources>
