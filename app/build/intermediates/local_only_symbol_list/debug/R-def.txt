@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+id apneaChartView
 id btnExit
 id btnResetSettings
 id btnStart
@@ -18,6 +19,9 @@ id statusText
 id switchAutoRecord
 id tabLayout
 id triggerSeekBar
+id tvAnalysisTitle
+id tvHints
+id tvSummary
 id txtCooldownVal
 id txtSilenceVal
 id txtSnoreVal
@@ -25,6 +29,7 @@ id txtTriggerVal
 id txtVolumeVal
 id viewPager
 id volumeSeekBar
+layout activity_analysis
 layout activity_main
 layout fragment_dashboard
 layout fragment_history

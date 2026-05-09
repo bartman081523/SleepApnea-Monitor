@@ -296,7 +296,7 @@ class HistoryFragment : Fragment() {
 
     private fun loadHistory() {
         val dir = context?.getExternalFilesDir(null)
-        val files = dir?.listFiles { file -> file.name.startsWith("night_record_") && file.name.endsWith(".wav") }
+        val files = dir?.listFiles { file -> file.name.startsWith("night_data_") && file.name.endsWith(".csv") }
             ?.sortedByDescending { it.lastModified() } ?: emptyList()
 
         if (files.isEmpty()) {
@@ -312,8 +312,10 @@ class HistoryFragment : Fragment() {
             
             listView.setOnItemClickListener { _, _, position, _ ->
                 val selectedFile = files[position]
-                // Here we would parse a corresponding CSV or show a graph.
-                android.widget.Toast.makeText(context, "Selected: ${selectedFile.name}", android.widget.Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, AnalysisActivity::class.java).apply {
+                    putExtra("EXTRA_CSV_PATH", selectedFile.absolutePath)
+                }
+                startActivity(intent)
             }
         }
     }

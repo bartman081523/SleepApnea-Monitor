@@ -2993,6 +2993,7 @@ id all
 id always
 id animateToEnd
 id animateToStart
+id apneaChartView
 id arc
 id asConfigured
 id async
@@ -3366,6 +3367,9 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id triggerSeekBar
+id tvAnalysisTitle
+id tvHints
+id tvSummary
 id txtCooldownVal
 id txtSilenceVal
 id txtSnoreVal
@@ -3503,6 +3507,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_analysis
 layout activity_main
 layout custom_dialog
 layout design_bottom_navigation_item

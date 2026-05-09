@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvAnalysisTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nacht Auswertung"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lade Daten..."
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"/>
+
+    <com.example.apnea.ApneaChartView
+        android:id="@+id/apneaChartView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FAFAFA"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvHints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hinweise zur Optimierung:"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="#D32F2F"/>
+
+</LinearLayout>
