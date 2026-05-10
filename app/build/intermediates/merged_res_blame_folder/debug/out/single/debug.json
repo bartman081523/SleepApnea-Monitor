@@ -1,26 +1,30 @@
 [
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_fragment_settings.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/fragment_settings.xml"
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_activity_main.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/activity_main.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_activity_questionnaire.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/activity_questionnaire.xml"
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_fragment_dashboard.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/fragment_dashboard.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_activity_analysis.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/activity_analysis.xml"
+        "merged": "com.example.apnea.app-merged_res-29:/layout_item_history.xml.flat",
+        "source": "com.example.apnea.app-main-31:/layout/item_history.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_fragment_history.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/fragment_history.xml"
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_activity_questionnaire.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/activity_questionnaire.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_activity_main.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/activity_main.xml"
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_activity_analysis.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/activity_analysis.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-29:/layout_fragment_dashboard.xml.flat",
-        "source": "com.example.apnea.app-main-31:/layout/fragment_dashboard.xml"
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_fragment_history.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/fragment_history.xml"
+    },
+    {
+        "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-29:/layout_fragment_settings.xml.flat",
+        "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-31:/layout/fragment_settings.xml"
     }
 ]

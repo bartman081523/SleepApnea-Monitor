@@ -31,6 +31,7 @@ class AnalysisActivity : AppCompatActivity() {
 
         val snoreData = ArrayList<Float>()
         val apneaData = ArrayList<Float>()
+        val rawPulseData = ArrayList<Pair<Int, Float>>() // Index, BPM
         val alarmIndices = ArrayList<Int>()
         var alarmCount = 0
         var totalLines = 0
@@ -59,6 +60,9 @@ class AnalysisActivity : AppCompatActivity() {
                                 if (eventType == "ALARM_START") {
                                     alarmCount++
                                     alarmIndices.add(apneaData.size)
+                                } else if (eventType == "HEALTH_HR") {
+                                    val bpm = tokens[2].toFloatOrNull() ?: 0f
+                                    rawPulseData.add(Pair(apneaData.size, bpm))
                                 } else if (eventType.startsWith("ML_")) {
                                     val snore = if (tokens.size > 2) tokens[2].toFloatOrNull() ?: 0f else 0f
                                     val apnea = if (tokens.size > 3) tokens[3].toFloatOrNull() ?: 0f else 0f
@@ -80,6 +84,25 @@ class AnalysisActivity : AppCompatActivity() {
             }
         } catch (e: Exception) { e.printStackTrace() }
 
+        // Interpolate Pulse
+        val pulseInterpolated = FloatArray(apneaData.size)
+        if (rawPulseData.isNotEmpty()) {
+            var pulseIdx = 0
+            for (i in apneaData.indices) {
+                if (pulseIdx < rawPulseData.size - 1 && i >= rawPulseData[pulseIdx + 1].first) {
+                    pulseIdx++
+                }
+                if (pulseIdx < rawPulseData.size - 1) {
+                    val p1 = rawPulseData[pulseIdx]; val p2 = rawPulseData[pulseIdx + 1]
+                    val t = (i - p1.first).toFloat() / (p2.first - p1.first)
+                    val bpm = p1.second + t * (p2.second - p1.second)
+                    pulseInterpolated[i] = (bpm - 40f) / 80f // Normalize 40-120 range to 0-1
+                } else if (rawPulseData.isNotEmpty()) {
+                    pulseInterpolated[i] = (rawPulseData.last().second - 40f) / 80f
+                }
+            }
+        }
+
         val finalAlarmCount = if (alarmCount > 0) alarmCount else legacyAlarmsHeuristic
         val isLegacy = alarmCount == 0 && legacyAlarmsHeuristic > 0
 
@@ -90,9 +113,10 @@ class AnalysisActivity : AppCompatActivity() {
         val factor = (snoreData.size / 1000).coerceAtLeast(1)
         val displaySnore = snoreData.filterIndexed { index, _ -> index % factor == 0 }
         val displayApnea = apneaData.filterIndexed { index, _ -> index % factor == 0 }
+        val displayPulse = pulseInterpolated.filterIndexed { index, _ -> index % factor == 0 }
         val displayAlarms = alarmIndices.map { it / factor }
         
-        chartView.setData(displaySnore, displayApnea, displayAlarms)
+        chartView.setData(displaySnore, displayApnea, displayPulse, displayAlarms)
 
         // RECOMMENDATION BRAIN
         var hints = getString(R.string.analysis_hints_title)

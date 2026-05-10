@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import java.io.File
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -71,6 +72,40 @@ class MainActivity : AppCompatActivity() {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(statusReceiver, IntentFilter("APNEA_STATUS_UPDATE"))
         checkForUpdates()
+        checkFirstRun()
+    }
+
+    private fun checkFirstRun() {
+        val prefs = getSharedPreferences("ApneaPrefs", MODE_PRIVATE)
+        if (prefs.getBoolean("first_run", true)) {
+            showOnboardingTour()
+            prefs.edit().putBoolean("first_run", false).apply()
+        }
+    }
+
+    private fun showOnboardingTour() {
+        val steps = listOf(
+            Pair("Willkommen!", "Willkommen beim Apnoe Wächter. Diese App erkennt Atemaussetzer im Schlaf und hilft Ihnen durch akustische Warnsignale."),
+            Pair("Dashboard", "Hier starten Sie das Tracking. Der grüne Button startet die Überwachung, der rote beendet sie sofort. Nach der Nacht können Sie hier Ihr Feedback abgeben."),
+            Pair("Einstellungen", "Passen Sie die Lautstärke und die Empfindlichkeit an. Wenn Sie zu oft geweckt werden, erhöhen Sie die Stille-Schwelle oder nutzen Sie den Fragebogen."),
+            Pair("Verlauf & Analyse", "Im Verlauf finden Sie Ihre aufgezeichneten Nächte. Klicken Sie auf einen Eintrag, um das Diagramm mit Schnarch- und Apnoe-Werten sowie Ihrem Puls zu sehen."),
+            Pair("Gesundheit", "Die App integriert sich mit Health Connect, um Ihren Puls im Diagramm anzuzeigen. Bitte geben Sie die Berechtigung bei Aufforderung frei.")
+        )
+        
+        showTourStep(0, steps)
+    }
+
+    private fun showTourStep(index: Int, steps: List<Pair<String, String>>) {
+        if (index >= steps.size) return
+        
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(steps[index].first)
+            .setMessage(steps[index].second)
+            .setPositiveButton(if (index == steps.size - 1) "Los geht's!" else "Weiter") { _, _ ->
+                showTourStep(index + 1, steps)
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun checkForUpdates() {
@@ -285,21 +320,81 @@ class SettingsFragment : Fragment() {
 
 class HistoryFragment : Fragment() {
     private lateinit var listView: android.widget.ListView; private lateinit var emptyText: TextView
+    private var files: MutableList<File> = mutableListOf()
+    private lateinit var adapter: HistoryAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         listView = view.findViewById(R.id.historyListView); emptyText = view.findViewById(R.id.historyEmptyText)
-        loadHistory(); return view
+        loadHistory()
+        return view
     }
+
     private fun loadHistory() {
         val dir = context?.getExternalFilesDir(null)
-        val files = dir?.listFiles { file -> file.name.startsWith("night_data_") && file.name.endsWith(".csv") }
-            ?.sortedByDescending { it.lastModified() } ?: emptyList()
-        if (files.isEmpty()) { emptyText.visibility = View.VISIBLE; listView.visibility = View.GONE } else {
-            emptyText.visibility = View.GONE; listView.visibility = View.VISIBLE
-            listView.adapter = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, files.map { it.name })
+        files = dir?.listFiles { file -> file.name.startsWith("night_data_") && file.name.endsWith(".csv") }
+            ?.sortedByDescending { it.lastModified() }?.toMutableList() ?: mutableListOf()
+
+        if (files.isEmpty()) {
+            emptyText.visibility = View.VISIBLE
+            listView.visibility = View.GONE
+        } else {
+            emptyText.visibility = View.GONE
+            listView.visibility = View.VISIBLE
+            
+            adapter = HistoryAdapter(requireContext(), files) { fileToDelete ->
+                showDeleteDialog(fileToDelete)
+            }
+            listView.adapter = adapter
+            
             listView.setOnItemClickListener { _, _, position, _ ->
                 startActivity(Intent(context, AnalysisActivity::class.java).apply { putExtra("EXTRA_CSV_PATH", files[position].absolutePath) })
             }
+        }
+    }
+
+    private fun showDeleteDialog(csvFile: File) {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Datei löschen?")
+            .setMessage("Möchten Sie diese Aufzeichnung (${csvFile.name}) und die zugehörige Audiodatei dauerhaft löschen?")
+            .setPositiveButton("Löschen") { _, _ ->
+                val timeStamp = csvFile.name.removePrefix("night_data_").removeSuffix(".csv")
+                val audioFile = File(csvFile.parent, "night_record_$timeStamp.m4a")
+                
+                if (csvFile.delete()) {
+                    if (audioFile.exists()) audioFile.delete()
+                    files.remove(csvFile)
+                    adapter.notifyDataSetChanged()
+                    if (files.isEmpty()) {
+                        emptyText.visibility = View.VISIBLE
+                        listView.visibility = View.GONE
+                    }
+                    android.widget.Toast.makeText(context, "Gelöscht", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Abbrechen", null)
+            .show()
+    }
+
+    private class HistoryAdapter(
+        context: Context,
+        private val objects: List<File>,
+        private val onDeleteClick: (File) -> Unit
+    ) : android.widget.ArrayAdapter<File>(context, R.layout.item_history, objects) {
+        
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_history, parent, false)
+            val file = objects[position]
+            
+            val tvFileName = view.findViewById<TextView>(R.id.tvFileName)
+            val btnDelete = view.findViewById<android.widget.ImageButton>(R.id.btnDelete)
+            
+            tvFileName.text = file.name
+            btnDelete.setOnClickListener {
+                onDeleteClick(file)
+            }
+            
+            return view
         }
     }
 }

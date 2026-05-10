@@ -299,8 +299,7 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             val accel = sqrt(x*x + y*y + z*z)
             if (accel > 11.5) {
                 lastMovementTime = System.currentTimeMillis()
-                val duration = System.currentTimeMillis() - serviceStartTime
-                if (duration > 3 * 60 * 60 * 1000L && !questionnaireTriggered && !isTestMode) {
+                if (!questionnaireTriggered && !isTestMode) {
                     questionnaireTriggered = true
                     showQuestionnaireNotification()
                 }

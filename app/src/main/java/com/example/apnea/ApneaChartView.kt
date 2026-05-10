@@ -8,6 +8,7 @@ import android.view.View
 class ApneaChartView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private var snoreData: List<Float> = emptyList()
     private var apneaData: List<Float> = emptyList()
+    private var pulseData: List<Float> = emptyList()
     private var alarmIndices: List<Int> = emptyList()
 
     private val snorePaint = Paint().apply {
@@ -24,27 +25,32 @@ class ApneaChartView(context: Context, attrs: AttributeSet?) : View(context, att
         isAntiAlias = true
     }
 
+    private val pulsePaint = Paint().apply {
+        color = Color.parseColor("#4CAF50") // Green
+        strokeWidth = 4f
+        style = Paint.Style.STROKE
+        isAntiAlias = true
+    }
+
     private val alarmPaint = Paint().apply {
         color = Color.parseColor("#FFD700") // Gold
         style = Paint.Style.FILL
         alpha = 100
     }
 
-    private val gridPaint = Paint().apply {
-        color = Color.GRAY
-        strokeWidth = 1f
-        alpha = 50
-    }
-
-    fun setData(snore: List<Float>, apnea: List<Float>, alarms: List<Int> = emptyList()) {
+    fun setData(snore: List<Float>, apnea: List<Float>, pulse: List<Float> = emptyList(), alarms: List<Int> = emptyList()) {
         this.snoreData = snore
         this.apneaData = apnea
+        this.pulseData = pulse
         this.alarmIndices = alarms
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        // Background color based on theme is already handled by android:background in layout
+        // if we want to force it, we can use: canvas.drawColor(Color.TRANSPARENT)
+
         if (apneaData.isEmpty()) return
 
         val w = width.toFloat()
@@ -53,24 +59,34 @@ class ApneaChartView(context: Context, attrs: AttributeSet?) : View(context, att
         // Draw Alarms (Background highlights)
         if (alarmIndices.isNotEmpty()) {
             for (idx in alarmIndices) {
-                if (idx < apneaData.size) {
-                    val x = (idx.toFloat() / apneaData.size) * w
-                    canvas.drawRect(x - 5f, 0f, x + 5f, h, alarmPaint)
-                }
+                val x = (idx.toFloat() / Math.max(1, apneaData.size)) * w
+                canvas.drawRect(x - 10f, 0f, x + 10f, h, alarmPaint)
             }
         }
 
-        // Draw smoothed Apnea curve
+        // Draw smoothed curves
         drawSmoothedPath(canvas, apneaData, h, apneaPaint)
-        
-        // Draw smoothed Snore curve
         drawSmoothedPath(canvas, snoreData, h, snorePaint)
         
+        if (pulseData.isNotEmpty()) {
+            // Normalize pulse (expecting 40-120 range roughly, but it's pre-normalized 0-1)
+            drawSmoothedPath(canvas, pulseData, h, pulsePaint)
+        }
+        
         // Legends
-        val textPaint = Paint().apply { color = Color.GRAY; textSize = 30f }
-        canvas.drawText("Blau: Schnarch-Score", 20f, 40f, textPaint)
-        canvas.drawText("Rot: Apnoe-Score", 20f, 80f, textPaint)
-        if (alarmIndices.isNotEmpty()) canvas.drawText("Gelb: Alarm-Trigger", 20f, 120f, textPaint)
+        val textPaint = Paint().apply { 
+            color = if (isDarkTheme()) Color.WHITE else Color.BLACK
+            textSize = 34f 
+            isFakeBoldText = true
+        }
+        canvas.drawText("Blau: Schnarchen", 20f, 50f, textPaint)
+        canvas.drawText("Rot: Apnoe", 20f, 100f, textPaint)
+        if (pulseData.isNotEmpty()) canvas.drawText("Grün: Puls", 20f, 150f, textPaint)
+        if (alarmIndices.isNotEmpty()) canvas.drawText("Gold: Alarme", 20f, 200f, textPaint)
+    }
+
+    private fun isDarkTheme(): Boolean {
+        return (context.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun drawSmoothedPath(canvas: Canvas, data: List<Float>, h: Float, paint: Paint) {

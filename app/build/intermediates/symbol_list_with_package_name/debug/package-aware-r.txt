@@ -3027,6 +3027,7 @@ id blocking
 id bottom
 id bounce
 id btnApplyRecommendation
+id btnDelete
 id btnEnd
 id btnExit
 id btnNo
@@ -3392,6 +3393,7 @@ id transition_transform
 id triangle
 id triggerSeekBar
 id tvAnalysisTitle
+id tvFileName
 id tvHints
 id tvQuestion
 id tvQuestionTitle
@@ -3558,6 +3560,7 @@ layout fragment_history
 layout fragment_settings
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout item_history
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title

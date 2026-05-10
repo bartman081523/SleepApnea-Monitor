@@ -19,6 +19,7 @@ color white
 id alarmDurSeekBar
 id apneaChartView
 id btnApplyRecommendation
+id btnDelete
 id btnEnd
 id btnExit
 id btnNo
@@ -41,6 +42,7 @@ id switchAutoRecord
 id tabLayout
 id triggerSeekBar
 id tvAnalysisTitle
+id tvFileName
 id tvHints
 id tvQuestion
 id tvQuestionTitle
@@ -59,6 +61,7 @@ layout activity_questionnaire
 layout fragment_dashboard
 layout fragment_history
 layout fragment_settings
+layout item_history
 string analysis_datapoints
 string analysis_estimated
 string analysis_hint_no_alarms
