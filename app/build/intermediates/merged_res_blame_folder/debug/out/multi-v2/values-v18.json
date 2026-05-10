@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-v18/values-v18.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-v18/values-v18.xml",
             "map": [
                 {
                     "source": "/home/julian/.gradle/caches/transforms-4/cea2ccf04b4c215881d90c68801d7498/transformed/appcompat-1.6.1/res/values-v18/values-v18.xml",

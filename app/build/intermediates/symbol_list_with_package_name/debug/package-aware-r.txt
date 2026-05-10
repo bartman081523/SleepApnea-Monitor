@@ -2928,6 +2928,7 @@ drawable notification_bg_low_pressed
 drawable notification_bg_normal
 drawable notification_bg_normal_pressed
 drawable notification_icon_background
+drawable notification_oversize_large_icon_bg
 drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
@@ -3029,13 +3030,11 @@ id btnApplyRecommendation
 id btnEnd
 id btnExit
 id btnNo
+id btnQuestionnaire
 id btnResetSettings
 id btnSkip
-id btnStart
 id btnStartQuestionnaire
-id btnStop
-id btnStopAlarm
-id btnTest
+id btnTracking
 id btnYes
 id buttonPanel
 id cancel_button
@@ -3100,6 +3099,7 @@ id easeInOut
 id easeOut
 id edge
 id edit_query
+id edit_text_id
 id elastic
 id embed
 id end
@@ -3133,6 +3133,7 @@ id graph_wrap
 id group_divider
 id groups
 id header_title
+id hide_ime_id
 id hideable
 id historyEmptyText
 id historyListView
@@ -3335,6 +3336,7 @@ id startToEnd
 id startVertical
 id staticLayout
 id staticPostLayout
+id statusIcon
 id statusText
 id stop
 id stretch
@@ -3554,6 +3556,8 @@ layout design_text_input_start_icon
 layout fragment_dashboard
 layout fragment_history
 layout fragment_settings
+layout ime_base_split_test_activity
+layout ime_secondary_split_test_activity
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3668,10 +3672,8 @@ string btn_exit
 string btn_no
 string btn_reset
 string btn_skip
-string btn_start
-string btn_stop
-string btn_stop_alarm
-string btn_test
+string btn_start_tracking
+string btn_stop_tracking
 string btn_yes
 string call_notification_answer_action
 string call_notification_answer_video_action
@@ -3798,6 +3800,7 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string q_manual_title
 string q_prompt
 string q_q1
 string q_q2

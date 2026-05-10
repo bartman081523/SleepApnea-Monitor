@@ -8,9 +8,15 @@ import android.os.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
+import kotlinx.coroutines.*
 import java.io.*
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import kotlin.math.sqrt
 
 class ApneaMonitoringService : Service(), SensorEventListener {
@@ -18,11 +24,8 @@ class ApneaMonitoringService : Service(), SensorEventListener {
     private var isRecording = false
     private var wakeLock: PowerManager.WakeLock? = null
     
-    // MediaRecorder for storage-efficient night log (AAC/M4A)
     private var mediaRecorder: MediaRecorder? = null
     private var currentRecordFile: File? = null
-
-    // CSV Logging
     private var csvOutputStream: FileOutputStream? = null
     private var currentCsvFile: File? = null
 
@@ -35,7 +38,6 @@ class ApneaMonitoringService : Service(), SensorEventListener {
     private var noiseFloor = 100.0
     private var silCounter = 0
     
-    // Dynamic Settings
     private var isTestMode = false
     private var isAutoRecord = false
     private var alarmVolume = 50
@@ -49,9 +51,12 @@ class ApneaMonitoringService : Service(), SensorEventListener {
     private var apneaWeightOffset = 0f
     private var serviceStartTime = 0L
     private var questionnaireTriggered = false
+    
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+    private var healthClient: HealthConnectClient? = null
 
     private val ML_INPUT_SIZE = 80000 
-
     private var mlInterpreter: org.tensorflow.lite.Interpreter? = null
     private val classes = arrayOf("Snore", "Apnea", "Noise", "Media")
 
@@ -64,7 +69,6 @@ class ApneaMonitoringService : Service(), SensorEventListener {
                 triggerDurationMs = it.getLongExtra("EXTRA_TRIGGER_DURATION", triggerDurationMs)
                 cooldownMs = it.getLongExtra("EXTRA_COOLDOWN", cooldownMs)
                 alarmDurationMs = it.getLongExtra("EXTRA_ALARM_DURATION", alarmDurationMs)
-                Log.d("ApneaApp", "Settings updated in Service")
             }
         }
     }
@@ -78,6 +82,10 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(settingsReceiver, IntentFilter("APNEA_SETTINGS_UPDATE"))
         loadModel()
+        
+        if (HealthConnectClient.getSdkStatus(this) == HealthConnectClient.SDK_AVAILABLE) {
+            healthClient = HealthConnectClient.getOrCreate(this)
+        }
     }
 
     private fun loadModel() {
@@ -85,20 +93,13 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             val assetFileDescriptor = assets.openFd("apnea_model_quantized.tflite")
             val inputStream = FileInputStream(assetFileDescriptor.fileDescriptor)
             val fileChannel = inputStream.channel
-            val startOffset = assetFileDescriptor.startOffset
-            val declaredLength = assetFileDescriptor.length
-            val modelBuffer = fileChannel.map(java.nio.channels.FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+            val modelBuffer = fileChannel.map(java.nio.channels.FileChannel.MapMode.READ_ONLY, assetFileDescriptor.startOffset, assetFileDescriptor.length)
             mlInterpreter = org.tensorflow.lite.Interpreter(modelBuffer)
-        } catch (e: Exception) {
-            Log.e("ApneaApp", "Model load failed", e)
-        }
+        } catch (e: Exception) { Log.e("ApneaApp", "Model load failed", e) }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == "ACTION_STOP_ALARM") {
-            stopAlarm()
-            return START_STICKY
-        }
+        if (intent?.action == "ACTION_STOP_ALARM") { stopAlarm(); return START_STICKY }
 
         isTestMode = intent?.getBooleanExtra("EXTRA_TEST_MODE", false) ?: false
         isAutoRecord = intent?.getBooleanExtra("EXTRA_AUTO_RECORD", false) ?: false
@@ -116,9 +117,30 @@ class ApneaMonitoringService : Service(), SensorEventListener {
 
         startForeground(1, createNotification())
         startMonitoring()
-
+        startHealthDataPolling()
         
         return START_STICKY
+    }
+
+    private fun startHealthDataPolling() {
+        serviceScope.launch {
+            while (isRecording) {
+                try {
+                    val now = Instant.now()
+                    val response = healthClient?.readRecords(
+                        ReadRecordsRequest(
+                            recordType = HeartRateRecord::class,
+                            timeRangeFilter = TimeRangeFilter.between(now.minus(5, ChronoUnit.MINUTES), now)
+                        )
+                    )
+                    val lastHr = response?.records?.lastOrNull()?.samples?.lastOrNull()?.beatsPerMinute
+                    if (lastHr != null) {
+                        csvOutputStream?.write(("${System.currentTimeMillis()},HEALTH_HR,$lastHr,0,0,0\n").toByteArray())
+                    }
+                } catch (e: Exception) { Log.e("ApneaApp", "Health data poll failed", e) }
+                delay(60000) // Poll every minute
+            }
+        }
     }
 
     private fun startMonitoring() {
@@ -127,19 +149,14 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         wakeLock?.acquire()
         
         val timeStamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.getDefault()).format(java.util.Date())
-        
-        // 1. CSV Initialization
         try {
-            val csvName = "night_data_$timeStamp.csv"
-            currentCsvFile = File(getExternalFilesDir(null), csvName)
+            currentCsvFile = File(getExternalFilesDir(null), "night_data_$timeStamp.csv")
             csvOutputStream = FileOutputStream(currentCsvFile)
-            // Save active settings in header for the "Self-Optimization Brain"
-            val meta = "#SETTINGS:vol=$alarmVolume,sil=$silenceThreshold,sno=$snoreThreshold,tri=$triggerDurationMs,dur=$alarmDurationMs,test=$isTestMode\n"
+            val meta = "#SETTINGS:vol=$alarmVolume,sil=$silenceThreshold,sno=$snoreThreshold,tri=$triggerDurationMs,dur=$alarmDurationMs,test=$isTestMode,weight=$apneaWeightOffset\n"
             csvOutputStream?.write(meta.toByteArray())
-            csvOutputStream?.write("Timestamp,Event,Snore,Apnea,Noise,Media\n".toByteArray())
+            csvOutputStream?.write("Timestamp,Event,Val1,Val2,Val3,Val4\n".toByteArray())
         } catch (e: Exception) { Log.e("ApneaApp", "CSV Init failed", e) }
 
-        // 2. AAC Recording (Storage Efficient)
         if (isAutoRecord && !isTestMode) {
             try {
                 currentRecordFile = File(getExternalFilesDir(null), "night_record_$timeStamp.m4a")
@@ -148,23 +165,19 @@ class ApneaMonitoringService : Service(), SensorEventListener {
                     setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION)
                     setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                     setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                    setAudioSamplingRate(16000)
-                    setAudioChannels(1)
-                    setAudioEncodingBitRate(32000)
+                    setAudioSamplingRate(16000); setAudioChannels(1); setAudioEncodingBitRate(32000)
                     setOutputFile(currentRecordFile?.absolutePath)
-                    prepare()
-                    start()
+                    prepare(); start()
                 }
             } catch (e: Exception) { Log.e("ApneaApp", "MediaRecorder failed", e) }
         }
 
-        // 3. AudioRecord for ML Analysis
         Thread {
             val bufferSize = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
             val audioRecord = AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize.coerceAtLeast(ML_INPUT_SIZE * 2))
             this.audioRecord = audioRecord
             
-            val audioData = ShortArray(1600) // 100ms chunks
+            val audioData = ShortArray(1600)
             val circularBuffer = ShortArray(ML_INPUT_SIZE)
             var bufferIndex = 0
 
@@ -176,42 +189,28 @@ class ApneaMonitoringService : Service(), SensorEventListener {
                 if (read > 0) {
                     var sum = 0.0
                     for (i in 0 until read) {
-                        val s = audioData[i]
-                        sum += s * s
+                        val s = audioData[i]; sum += s * s
                         circularBuffer[bufferIndex] = s
                         bufferIndex = (bufferIndex + 1) % ML_INPUT_SIZE
                     }
-                    
                     val rms = sqrt(sum / read)
-                    noiseFloor = noiseFloor * 0.999 + rms * 0.01 // Very slow noise floor tracking
-                    
-                    val adaptiveThreshold = noiseFloor * 4.0 
-                    val effectiveSnoreThreshold = Math.min(snoreThreshold, Math.max(300.0, adaptiveThreshold))
-
-                    val now = System.currentTimeMillis()
-                    val timeSinceLastMovement = now - lastMovementTime
-                    val isDeepSleepCandidate = isTestMode || (timeSinceLastMovement > 5 * 60 * 1000L)
-                    val inCooldown = !isTestMode && (now - lastInterventionTime < cooldownMs)
+                    noiseFloor = noiseFloor * 0.999 + rms * 0.01
+                    val effSnoreThresh = Math.min(snoreThreshold, Math.max(300.0, noiseFloor * 4.0))
 
                     if (rms < silenceThreshold) {
                         silCounter += read
                         val silenceDuration = (silCounter.toDouble() / 16000.0) * 1000.0
-                        val snoreAge = now - lastSnoreTime
-                        
-                        if (silenceDuration >= triggerDurationMs && snoreAge < 60000L && isDeepSleepCandidate && !inCooldown && !isAlarmRunning) {
+                        if (silenceDuration >= triggerDurationMs && (System.currentTimeMillis() - lastSnoreTime < 60000L) && !isAlarmRunning) {
                             runMLAndTrigger(circularBuffer)
                         }
                     } else {
                         silCounter = 0
-                        if (rms > effectiveSnoreThreshold && !isAlarmRunning) {
-                            checkBackgroundML(circularBuffer)
-                        }
+                        if (rms > effSnoreThresh && !isAlarmRunning) checkBackgroundML(circularBuffer)
                     }
                 }
                 Thread.sleep(50)
             }
-            audioRecord.stop()
-            audioRecord.release()
+            audioRecord.stop(); audioRecord.release()
         }.start()
     }
 
@@ -222,31 +221,22 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             rawInput[i] = buffer[i].toFloat()
             if (Math.abs(rawInput[i]) > maxAbs) maxAbs = Math.abs(rawInput[i])
         }
+        if (maxAbs < 0.1f) return
         val inferenceInput = FloatArray(ML_INPUT_SIZE)
-        if (maxAbs > 0.1f) {
-            for (i in 0 until ML_INPUT_SIZE) inferenceInput[i] = rawInput[i] / maxAbs
-        } else { return }
+        for (i in 0 until ML_INPUT_SIZE) inferenceInput[i] = rawInput[i] / maxAbs
 
         val output = Array(1) { FloatArray(classes.size) }
         mlInterpreter?.run(arrayOf(inferenceInput), output)
         
-        val snoreScore = output[0][0]
-        val apneaScore = output[0][1]
-        val noiseScore = output[0][2]
+        val snoreScore = output[0][0]; val apneaScore = output[0][1]
         val mediaScore = output[0][3]
 
-        val timestamp = System.currentTimeMillis()
-        try {
-            csvOutputStream?.write(("$timestamp,ML_BG,${String.format(java.util.Locale.US, "%.3f", snoreScore)},${String.format(java.util.Locale.US, "%.3f", apneaScore)},${String.format(java.util.Locale.US, "%.3f", noiseScore)},${String.format(java.util.Locale.US, "%.3f", mediaScore)}\n").toByteArray())
-        } catch (e: Exception) {}
+        try { csvOutputStream?.write(("${System.currentTimeMillis()},ML_BG,${String.format("%.3f", snoreScore)},${String.format("%.3f", apneaScore)},0,${String.format("%.3f", mediaScore)}\n").toByteArray()) } catch (e: Exception) {}
 
-        val confirmThresh = if (isTestMode) 0.15f else 0.80f
-        val effectiveApneaThresh = 0.40f + apneaWeightOffset
-        
-        if (snoreScore > confirmThresh) {
+        if (snoreScore > (if (isTestMode) 0.15f else 0.80f)) {
             lastSnoreTime = System.currentTimeMillis()
             sendStatusUpdate("AKTIV", "Schnarchen (KI)")
-        } else if (apneaScore > effectiveApneaThresh && !isAlarmRunning && (System.currentTimeMillis() - lastSnoreTime < 60000L)) {
+        } else if (apneaScore > (0.40f + apneaWeightOffset) && !isAlarmRunning && (System.currentTimeMillis() - lastSnoreTime < 60000L)) {
             triggerIntervention("ML Distress erkannt")
         }
     }
@@ -259,54 +249,32 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             if (Math.abs(rawInput[i]) > maxAbs) maxAbs = Math.abs(rawInput[i])
         }
         val inferenceInput = FloatArray(ML_INPUT_SIZE)
-        if (maxAbs > 0.0001f) {
-            for (i in 0 until ML_INPUT_SIZE) inferenceInput[i] = rawInput[i] / maxAbs
-        } else {
-            for (i in 0 until ML_INPUT_SIZE) inferenceInput[i] = 0f
-        }
+        if (maxAbs > 0.0001f) { for (i in 0 until ML_INPUT_SIZE) inferenceInput[i] = rawInput[i] / maxAbs }
 
         val output = Array(1) { FloatArray(classes.size) }
         mlInterpreter?.run(arrayOf(inferenceInput), output)
         
-        val snoreScore = output[0][0]
-        val apneaScore = output[0][1]
-        val noiseScore = output[0][2]
+        val snoreScore = output[0][0]; val apneaScore = output[0][1]
         val mediaScore = output[0][3]
 
-        val timestamp = System.currentTimeMillis()
-        try {
-            csvOutputStream?.write(("$timestamp,ML_TRIGGER,${String.format(java.util.Locale.US, "%.3f", snoreScore)},${String.format(java.util.Locale.US, "%.3f", apneaScore)},${String.format(java.util.Locale.US, "%.3f", noiseScore)},${String.format(java.util.Locale.US, "%.3f", mediaScore)}\n").toByteArray())
-        } catch (e: Exception) {}
+        try { csvOutputStream?.write(("${System.currentTimeMillis()},ML_TRIGGER,$snoreScore,$apneaScore,0,$mediaScore\n").toByteArray()) } catch (e: Exception) {}
 
-        val effectiveApneaThresh = 0.40f + apneaWeightOffset
-        if (apneaScore > effectiveApneaThresh && mediaScore < 0.15f) {
+        if (apneaScore > (0.40f + apneaWeightOffset) && mediaScore < 0.15f) {
             triggerIntervention("ML: Apnoe bestätigt")
         }
     }
 
     private fun triggerIntervention(reason: String) {
-        val timestamp = System.currentTimeMillis()
-        try {
-            csvOutputStream?.write(("$timestamp,ALARM_START,0,0,0,0\n").toByteArray())
-        } catch (e: Exception) {}
-
-        Log.i("ADB_SIGNAL", "ALARM: START - Reason: $reason")
+        try { csvOutputStream?.write(("${System.currentTimeMillis()},ALARM_START,0,0,0,0\n").toByteArray()) } catch (e: Exception) {}
         audioIntervention.triggerAlarm(alarmVolume)
-        isAlarmRunning = true
-        lastInterventionTime = System.currentTimeMillis()
+        isAlarmRunning = true; lastInterventionTime = System.currentTimeMillis()
         sendStatusUpdate("ALARM!", reason)
-        
-        // Auto-Stop alarm after set duration
-        Handler(Looper.getMainLooper()).postDelayed({
-            stopAlarm()
-        }, alarmDurationMs)
+        Handler(Looper.getMainLooper()).postDelayed({ stopAlarm() }, alarmDurationMs)
     }
 
     private fun stopAlarm() {
         if (!isAlarmRunning) return
-        audioIntervention.stopAlarm()
-        isAlarmRunning = false
-        silCounter = 0
+        audioIntervention.stopAlarm(); isAlarmRunning = false; silCounter = 0
         sendStatusUpdate("AKTIV", "Alarm beendet")
     }
 
@@ -315,19 +283,12 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         val channel = NotificationChannel(channelId, "Apnea Monitoring", NotificationManager.IMPORTANCE_LOW)
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
-
-        return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Apnoe Wächter läuft")
-            .setContentText("Überwachung ist aktiv...")
-            .setSmallIcon(android.R.drawable.ic_lock_idle_lock)
-            .build()
+        return NotificationCompat.Builder(this, channelId).setContentTitle("Apnoe Wächter aktiv").setSmallIcon(android.R.drawable.ic_lock_idle_lock).build()
     }
 
     private fun sendStatusUpdate(status: String, detail: String) {
         val intent = Intent("APNEA_STATUS_UPDATE").apply {
-            putExtra("EXTRA_STATUS", status)
-            putExtra("EXTRA_DETAIL", detail)
-            putExtra("EXTRA_ALARM_RUNNING", isAlarmRunning)
+            putExtra("EXTRA_STATUS", status); putExtra("EXTRA_DETAIL", detail); putExtra("EXTRA_ALARM_RUNNING", isAlarmRunning)
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
@@ -338,8 +299,6 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             val accel = sqrt(x*x + y*y + z*z)
             if (accel > 11.5) {
                 lastMovementTime = System.currentTimeMillis()
-                
-                // Trigger Questionnaire if monitored > 3h and not already triggered
                 val duration = System.currentTimeMillis() - serviceStartTime
                 if (duration > 3 * 60 * 60 * 1000L && !questionnaireTriggered && !isTestMode) {
                     questionnaireTriggered = true
@@ -351,42 +310,25 @@ class ApneaMonitoringService : Service(), SensorEventListener {
 
     private fun showQuestionnaireNotification() {
         val channelId = "ApneaServiceChannel"
-        val intent = Intent(this, QuestionnaireActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        val intent = Intent(this, QuestionnaireActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle(getString(R.string.q_title))
-            .setContentText(getString(R.string.q_prompt))
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(pendingIntent)
-            .build()
-
+        val notification = NotificationCompat.Builder(this, channelId).setContentTitle(getString(R.string.q_title)).setContentText(getString(R.string.q_prompt)).setSmallIcon(android.R.drawable.ic_dialog_info).setAutoCancel(true).setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent).build()
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(2, notification)
     }
 
     override fun onAccuracyChanged(s: Sensor?, a: Int) {}
-
     override fun onDestroy() {
         isRecording = false
+        serviceJob.cancel()
         audioIntervention.stopAlarm()
-        try {
-            mediaRecorder?.stop()
-            mediaRecorder?.release()
-        } catch (e: Exception) {}
-        try {
-            csvOutputStream?.close()
-        } catch (e: Exception) {}
+        try { mediaRecorder?.stop(); mediaRecorder?.release() } catch (e: Exception) {}
+        try { csvOutputStream?.close() } catch (e: Exception) {}
         if (wakeLock?.isHeld == true) wakeLock?.release()
         sensorManager.unregisterListener(this)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(settingsReceiver)
         sendStatusUpdate("BEREIT", "Gestoppt")
         super.onDestroy()
     }
-
     override fun onBind(intent: Intent?): IBinder? = null
 }

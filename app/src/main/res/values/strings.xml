@@ -6,10 +6,9 @@
     <string name="tab_history">HISTORY</string>
     <string name="status_ready">READY</string>
     <string name="status_stopped">Stopped...</string>
-    <string name="btn_start">Start Monitoring</string>
-    <string name="btn_test">Test Mode</string>
-    <string name="btn_stop_alarm">Stop Alarm</string>
-    <string name="btn_stop">Stop Service</string>
+    <string name="btn_start_tracking">Apnea Tracking starten</string>
+    <string name="btn_stop_tracking">Tracking beenden</string>
+    <string name="q_manual_title">Morgen Feedback</string>
     <string name="btn_exit">Exit</string>
     <string name="switch_auto_record">Auto-record Audio</string>
     <string name="settings_volume">Alarm Volume</string>

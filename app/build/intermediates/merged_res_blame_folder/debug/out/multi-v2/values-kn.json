@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-kn/values-kn.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-kn/values-kn.xml",
             "map": [
+                {
+                    "source": "/home/julian/.gradle/caches/transforms-4/b65592f7b47b47aa551e59b10fdbd605/transformed/core-1.12.0/res/values-kn/values-kn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,256,357,463,564,672,800",
+                        "endColumns": "97,102,100,105,100,107,127,100",
+                        "endOffsets": "148,251,352,458,559,667,795,896"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41,42,43,44,103",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3532,3630,3733,3834,3940,4041,4149,8922",
+                        "endColumns": "97,102,100,105,100,107,127,100",
+                        "endOffsets": "3625,3728,3829,3935,4036,4144,4272,9018"
+                    }
+                },
                 {
                     "source": "/home/julian/.gradle/caches/transforms-4/cea2ccf04b4c215881d90c68801d7498/transformed/appcompat-1.6.1/res/values-kn/values-kn.xml",
                     "from": {
@@ -18,23 +35,6 @@
                         "startOffsets": "319,433,545,658,746,853,979,1057,1133,1224,1317,1412,1506,1606,1699,1794,1888,1979,2070,2152,2268,2378,2477,2590,2695,2809,2973,8839",
                         "endColumns": "113,111,112,87,106,125,77,75,90,92,94,93,99,92,94,93,90,90,81,115,109,98,112,104,113,163,99,82",
                         "endOffsets": "428,540,653,741,848,974,1052,1128,1219,1312,1407,1501,1601,1694,1789,1883,1974,2065,2147,2263,2373,2472,2585,2690,2804,2968,3068,8917"
-                    }
-                },
-                {
-                    "source": "/home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/res/values-kn/values-kn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,256,357,463,564,672,800",
-                        "endColumns": "97,102,100,105,100,107,127,100",
-                        "endOffsets": "148,251,352,458,559,667,795,896"
-                    },
-                    "to": {
-                        "startLines": "38,39,40,41,42,43,44,103",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3532,3630,3733,3834,3940,4041,4149,8922",
-                        "endColumns": "97,102,100,105,100,107,127,100",
-                        "endOffsets": "3625,3728,3829,3935,4036,4144,4272,9018"
                     }
                 },
                 {

@@ -53,10 +53,8 @@
     <string name="btn_no">Nein</string>
     <string name="btn_reset">Standardwerte</string>
     <string name="btn_skip">Überspringen</string>
-    <string name="btn_start">Überwachung starten</string>
-    <string name="btn_stop">Dienst stoppen</string>
-    <string name="btn_stop_alarm">Alarm stoppen</string>
-    <string name="btn_test">Test Modus</string>
+    <string name="btn_start_tracking">Apnea Tracking starten</string>
+    <string name="btn_stop_tracking">Tracking beenden</string>
     <string name="btn_yes">Ja</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Annehmen"</string>
     <string msgid="8793775615905189152" name="call_notification_answer_video_action">"Video"</string>
@@ -124,6 +122,7 @@
     <string name="mtrl_timepicker_cancel">Abbrechen</string>
     <string name="mtrl_timepicker_confirm">OK</string>
     <string name="password_toggle_content_description">Passwort anzeigen</string>
+    <string name="q_manual_title">Morgen Feedback</string>
     <string name="q_prompt">Wie war die Nacht?</string>
     <string name="q_q1">Wurden Sie zu oft geweckt?</string>
     <string name="q_q2">War der Alarmton zu laut?</string>

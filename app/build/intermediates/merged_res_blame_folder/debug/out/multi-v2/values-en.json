@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-en/values-en.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-en/values-en.xml",
             "map": [
                 {
                     "source": "/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/res/values-en/strings.xml",

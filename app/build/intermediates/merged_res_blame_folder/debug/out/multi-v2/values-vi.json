@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-vi/values-vi.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-vi/values-vi.xml",
             "map": [
+                {
+                    "source": "/home/julian/.gradle/caches/transforms-4/b65592f7b47b47aa551e59b10fdbd605/transformed/core-1.12.0/res/values-vi/values-vi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,152,254,353,453,556,669,785",
+                        "endColumns": "96,101,98,99,102,112,115,100",
+                        "endOffsets": "147,249,348,448,551,664,780,881"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41,42,43,44,103",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3402,3499,3601,3700,3800,3903,4016,8635",
+                        "endColumns": "96,101,98,99,102,112,115,100",
+                        "endOffsets": "3494,3596,3695,3795,3898,4011,4127,8731"
+                    }
+                },
                 {
                     "source": "/home/julian/.gradle/caches/transforms-4/cea2ccf04b4c215881d90c68801d7498/transformed/appcompat-1.6.1/res/values-vi/values-vi.xml",
                     "from": {
@@ -18,23 +35,6 @@
                         "startOffsets": "315,422,524,633,717,820,939,1017,1093,1184,1277,1372,1466,1566,1659,1754,1848,1939,2030,2114,2218,2326,2427,2532,2647,2752,2909,8550",
                         "endColumns": "106,101,108,83,102,118,77,75,90,92,94,93,99,92,94,93,90,90,83,103,107,100,104,114,104,156,98,84",
                         "endOffsets": "417,519,628,712,815,934,1012,1088,1179,1272,1367,1461,1561,1654,1749,1843,1934,2025,2109,2213,2321,2422,2527,2642,2747,2904,3003,8630"
-                    }
-                },
-                {
-                    "source": "/home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/res/values-vi/values-vi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,254,353,453,556,669,785",
-                        "endColumns": "96,101,98,99,102,112,115,100",
-                        "endOffsets": "147,249,348,448,551,664,780,881"
-                    },
-                    "to": {
-                        "startLines": "38,39,40,41,42,43,44,103",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3402,3499,3601,3700,3800,3903,4016,8635",
-                        "endColumns": "96,101,98,99,102,112,115,100",
-                        "endOffsets": "3494,3596,3695,3795,3898,4011,4127,8731"
                     }
                 },
                 {

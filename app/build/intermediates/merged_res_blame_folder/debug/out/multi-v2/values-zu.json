@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-zu/values-zu.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-zu/values-zu.xml",
             "map": [
+                {
+                    "source": "/home/julian/.gradle/caches/transforms-4/b65592f7b47b47aa551e59b10fdbd605/transformed/core-1.12.0/res/values-zu/values-zu.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,257,356,459,565,672,785",
+                        "endColumns": "97,103,98,102,105,106,112,100",
+                        "endOffsets": "148,252,351,454,560,667,780,881"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41,42,43,44,103",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3421,3519,3623,3722,3825,3931,4038,8889",
+                        "endColumns": "97,103,98,102,105,106,112,100",
+                        "endOffsets": "3514,3618,3717,3820,3926,4033,4146,8985"
+                    }
+                },
                 {
                     "source": "/home/julian/.gradle/caches/transforms-4/cea2ccf04b4c215881d90c68801d7498/transformed/appcompat-1.6.1/res/values-zu/values-zu.xml",
                     "from": {
@@ -18,23 +35,6 @@
                         "startOffsets": "321,429,536,648,736,839,954,1033,1110,1201,1294,1389,1483,1583,1676,1771,1865,1956,2049,2130,2234,2337,2435,2542,2649,2754,2911,8807",
                         "endColumns": "107,106,111,87,102,114,78,76,90,92,94,93,99,92,94,93,90,92,80,103,102,97,106,106,104,156,95,81",
                         "endOffsets": "424,531,643,731,834,949,1028,1105,1196,1289,1384,1478,1578,1671,1766,1860,1951,2044,2125,2229,2332,2430,2537,2644,2749,2906,3002,8884"
-                    }
-                },
-                {
-                    "source": "/home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/res/values-zu/values-zu.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,257,356,459,565,672,785",
-                        "endColumns": "97,103,98,102,105,106,112,100",
-                        "endOffsets": "148,252,351,454,560,667,780,881"
-                    },
-                    "to": {
-                        "startLines": "38,39,40,41,42,43,44,103",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3421,3519,3623,3722,3825,3931,4038,8889",
-                        "endColumns": "97,103,98,102,105,106,112,100",
-                        "endOffsets": "3514,3618,3717,3820,3926,4033,4146,8985"
                     }
                 },
                 {

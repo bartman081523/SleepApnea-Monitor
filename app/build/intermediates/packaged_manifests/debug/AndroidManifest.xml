@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="21"
+        android:minSdkVersion="26"
         android:targetSdkVersion="34" />
     <!-- Essenzielle Berechtigungen -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +25,7 @@
     <application
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:extractNativeLibs="true"
+        android:extractNativeLibs="false"
         android:label="Apnoe Edge AI"
         android:theme="@style/Theme.ApneaApp" >
         <service
@@ -48,6 +48,15 @@
         <activity
             android:name="com.example.apnea.QuestionnaireActivity"
             android:exported="false" />
+
+        <service
+            android:name="androidx.health.platform.client.impl.sdkservice.HealthDataSdkService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="androidx.health.platform.client.ACTION_BIND_SDK_SERVICE" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

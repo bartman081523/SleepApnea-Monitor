@@ -162,32 +162,61 @@ class MainActivity : AppCompatActivity() {
 
 class DashboardFragment : Fragment() {
     private lateinit var statusText: TextView; private lateinit var detailStatusText: TextView
-    private lateinit var btnStopAlarm: Button; private lateinit var btnStart: Button
-    private lateinit var btnTest: Button; private lateinit var switchAutoRecord: com.google.android.material.switchmaterial.SwitchMaterial
+    private lateinit var btnTracking: Button; private lateinit var btnQuestionnaire: Button
+    private lateinit var switchAutoRecord: com.google.android.material.switchmaterial.SwitchMaterial
+    
     private val refreshReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) { updateUI() }
     }
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
         statusText = view.findViewById(R.id.statusText); detailStatusText = view.findViewById(R.id.detailStatusText)
-        btnStart = view.findViewById(R.id.btnStart); btnTest = view.findViewById(R.id.btnTest)
-        btnStopAlarm = view.findViewById(R.id.btnStopAlarm); switchAutoRecord = view.findViewById(R.id.switchAutoRecord)
+        btnTracking = view.findViewById(R.id.btnTracking); btnQuestionnaire = view.findViewById(R.id.btnQuestionnaire)
+        switchAutoRecord = view.findViewById(R.id.switchAutoRecord)
+
         switchAutoRecord.isChecked = MainActivity.isAutoRecord
         switchAutoRecord.setOnCheckedChangeListener { _, isChecked -> MainActivity.isAutoRecord = isChecked; (activity as MainActivity).saveSettings() }
-        btnStart.setOnClickListener { (activity as MainActivity).checkPermissionsAndStart(false) }
-        btnTest.setOnClickListener { (activity as MainActivity).checkPermissionsAndStart(true) }
-        btnStopAlarm.setOnClickListener { val intent = Intent(activity, ApneaMonitoringService::class.java).apply { action = "ACTION_STOP_ALARM" }; activity?.startForegroundService(intent) }
-        view.findViewById<Button>(R.id.btnStop).setOnClickListener { activity?.stopService(Intent(activity, ApneaMonitoringService::class.java)); MainActivity.status = "BEREIT"; updateUI() }
-        view.findViewById<Button>(R.id.btnExit).setOnClickListener { activity?.stopService(Intent(activity, ApneaMonitoringService::class.java)); activity?.finish() }
+        
+        btnTracking.setOnClickListener {
+            val running = !(MainActivity.status == "BEREIT" || MainActivity.status == "Gestoppt")
+            if (running) {
+                // STOP Logic
+                activity?.stopService(Intent(activity, ApneaMonitoringService::class.java))
+                MainActivity.status = "BEREIT"
+            } else {
+                // START Logic
+                (activity as MainActivity).checkPermissionsAndStart(false)
+            }
+            updateUI()
+        }
+
+        btnQuestionnaire.setOnClickListener {
+            startActivity(Intent(context, QuestionnaireActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnExit).setOnClickListener {
+            activity?.stopService(Intent(activity, ApneaMonitoringService::class.java))
+            activity?.finish()
+        }
+
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(refreshReceiver, IntentFilter("UI_REFRESH"))
         updateUI(); return view
     }
+
     private fun updateUI() {
         statusText.text = MainActivity.status; detailStatusText.text = MainActivity.detail
-        btnStopAlarm.visibility = if (MainActivity.isAlarmRunning) View.VISIBLE else View.GONE
+        
         val running = !(MainActivity.status == "BEREIT" || MainActivity.status == "Gestoppt")
-        btnStart.isEnabled = !running; btnTest.isEnabled = !running
+        if (running) {
+            btnTracking.text = getString(R.string.btn_stop_tracking)
+            btnTracking.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#F44336")) // Red
+        } else {
+            btnTracking.text = getString(R.string.btn_start_tracking)
+            btnTracking.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#4CAF50")) // Green
+        }
     }
+    
     override fun onDestroyView() { super.onDestroyView(); LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(refreshReceiver) }
 }
 

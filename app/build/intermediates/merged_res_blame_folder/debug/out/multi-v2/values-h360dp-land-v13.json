@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.apnea.app-mergeDebugResources-26:/values-h360dp-land-v13/values-h360dp-land-v13.xml",
+            "outputFile": "com.example.apnea.app-mergeDebugResources-27:/values-h360dp-land-v13/values-h360dp-land-v13.xml",
             "map": [
                 {
                     "source": "/home/julian/.gradle/caches/transforms-4/b88f7a67cedacc3fa646299ed954e85f/transformed/material-1.9.0/res/values-h360dp-land-v13/values-h360dp-land-v13.xml",

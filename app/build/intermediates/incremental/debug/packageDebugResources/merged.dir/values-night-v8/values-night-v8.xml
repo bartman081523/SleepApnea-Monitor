@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Style.ApneaCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/cardColorDark</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+    <style name="Theme.ApneaApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="android:statusBarColor">#000000</item>
+        
+        <item name="android:windowBackground">@color/backgroundColorDark</item>
+    </style>
+</resources>

@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.example.apnea'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.example.apnea"
-        minSdk 21
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -44,4 +44,10 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'org.tensorflow:tensorflow-lite:2.14.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'
+    
+    // Health Connect
+    implementation "androidx.health.connect:connect-client:1.1.0-alpha11"
+    
+    // Coroutines for async health data fetching
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 }

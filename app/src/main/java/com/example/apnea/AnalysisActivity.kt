@@ -31,13 +31,13 @@ class AnalysisActivity : AppCompatActivity() {
 
         val snoreData = ArrayList<Float>()
         val apneaData = ArrayList<Float>()
+        val alarmIndices = ArrayList<Int>()
         var alarmCount = 0
         var totalLines = 0
         
         var legacyAlarmsHeuristic = 0
         var apneaCounter = 0
         
-        // Metadata from file
         var recordedSilenceThresh = 250
         var isTestModeFile = false
 
@@ -46,7 +46,6 @@ class AnalysisActivity : AppCompatActivity() {
                 var line = br.readLine()
                 while (line != null) {
                     if (line.startsWith("#SETTINGS:")) {
-                        // Parse settings: #SETTINGS:vol=50,sil=250.0,...
                         val parts = line.removePrefix("#SETTINGS:").split(",")
                         for (p in parts) {
                             if (p.startsWith("sil=")) recordedSilenceThresh = p.substringAfter("=").toDoubleOrNull()?.toInt() ?: 250
@@ -59,13 +58,13 @@ class AnalysisActivity : AppCompatActivity() {
                                 val eventType = tokens[1]
                                 if (eventType == "ALARM_START") {
                                     alarmCount++
+                                    alarmIndices.add(apneaData.size)
                                 } else if (eventType.startsWith("ML_")) {
                                     val snore = if (tokens.size > 2) tokens[2].toFloatOrNull() ?: 0f else 0f
                                     val apnea = if (tokens.size > 3) tokens[3].toFloatOrNull() ?: 0f else 0f
                                     snoreData.add(snore)
                                     apneaData.add(apnea)
                                     
-                                    // Heuristic for old logs or missing alarm markers
                                     if (apnea > 0.95f) apneaCounter++
                                     else {
                                         if (apneaCounter >= 2) legacyAlarmsHeuristic++
@@ -89,10 +88,11 @@ class AnalysisActivity : AppCompatActivity() {
                         (if (isTestModeFile) getString(R.string.analysis_test_run) else "")
         
         val factor = (snoreData.size / 1000).coerceAtLeast(1)
-        chartView.setData(
-            snoreData.filterIndexed { index, _ -> index % factor == 0 },
-            apneaData.filterIndexed { index, _ -> index % factor == 0 }
-        )
+        val displaySnore = snoreData.filterIndexed { index, _ -> index % factor == 0 }
+        val displayApnea = apneaData.filterIndexed { index, _ -> index % factor == 0 }
+        val displayAlarms = alarmIndices.map { it / factor }
+        
+        chartView.setData(displaySnore, displayApnea, displayAlarms)
 
         // RECOMMENDATION BRAIN
         var hints = getString(R.string.analysis_hints_title)
@@ -116,12 +116,9 @@ class AnalysisActivity : AppCompatActivity() {
             btnApply.visibility = android.view.View.VISIBLE
             btnApply.setOnClickListener {
                 val prefs = getSharedPreferences("ApneaPrefs", MODE_PRIVATE)
-                // Use the threshold that was active DURING the recording as baseline!
                 val newSil = (recordedSilenceThresh + recommendedSilChange).coerceIn(50, 1000)
-                
                 prefs.edit().putInt("silence", newSil).apply()
                 MainActivity.sil = newSil
-                
                 android.widget.Toast.makeText(this, getString(R.string.toast_optimized, newSil), android.widget.Toast.LENGTH_SHORT).show()
                 btnApply.visibility = android.view.View.GONE
             }

@@ -27,6 +27,7 @@
                 android:padding="32dp">
 
                 <ImageView
+                    android:id="@+id/statusIcon"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:src="@android:drawable/ic_dialog_info"
@@ -45,36 +46,36 @@
                     android:id="@+id/detailStatusText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="System ist bereit"
+                    android:text="System bereit"
                     android:textSize="16sp"
                     android:layout_marginTop="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Start Button -->
+        <!-- Main Tracking Button (Dynamic) -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStart"
+            android:id="@+id/btnTracking"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="@string/btn_start"
-            app:cornerRadius="12dp"
-            android:textSize="18sp"
+            android:layout_height="80dp"
+            android:text="@string/btn_start_tracking"
+            app:cornerRadius="16dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:backgroundTint="#4CAF50"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Test Button -->
+        <!-- Questionnaire Button -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTest"
+            android:id="@+id/btnQuestionnaire"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:text="@string/btn_test"
+            android:text="@string/q_manual_title"
             app:cornerRadius="12dp"
             android:textSize="16sp"
-            app:strokeColor="@color/secondaryColor"
-            android:textColor="@color/secondaryColor"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Auto Record Switch -->
+        <!-- Auto Record Switch Card -->
         <com.google.android.material.card.MaterialCardView
             style="@style/Style.ApneaCard"
             android:layout_width="match_parent"
@@ -88,32 +89,8 @@
                 android:padding="16dp"
                 android:text="@string/switch_auto_record"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 android:checked="false" />
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- Alarm Stop -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStopAlarm"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="@string/btn_stop_alarm"
-            app:cornerRadius="12dp"
-            android:textSize="18sp"
-            android:backgroundTint="@color/status_alarm"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"/>
-
-        <!-- Stop App Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStop"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="@string/btn_stop"
-            android:textColor="@color/status_alarm"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
 
         <!-- Exit App Button -->
         <com.google.android.material.button.MaterialButton
@@ -122,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:text="@string/btn_exit"
-            android:textSize="16sp"
+            android:textColor="@color/textColorSecondaryLight"
+            android:textSize="14sp"
             android:layout_marginBottom="24dp"/>
 
     </LinearLayout>
