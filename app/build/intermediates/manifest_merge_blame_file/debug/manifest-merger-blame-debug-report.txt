@@ -8,97 +8,103 @@
 8        android:minSdkVersion="21"
 9        android:targetSdkVersion="34" />
 10    <!-- Essenzielle Berechtigungen -->
-11    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-11-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:3:5-71
-11-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:3:22-68
-12    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-12-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:4:5-77
-12-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:4:22-74
-13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-13-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:5:5-88
-13-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:5:22-85
-14    <uses-permission android:name="android.permission.WAKE_LOCK" />
-14-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:6:5-68
-14-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:6:22-65
-15    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-15-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:7:5-85
-15-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:7:22-82
-16
-17    <permission
-17-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
-18        android:name="com.example.apnea.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-18-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
-19        android:protectionLevel="signature" />
-19-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
-20
-21    <uses-permission android:name="com.example.apnea.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-21-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
-21-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:3:5-67
+11-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:3:22-64
+12    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+12-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:4:5-71
+12-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:4:22-68
+13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+13-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:5:5-77
+13-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:5:22-74
+14    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+14-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:6:5-88
+14-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:6:22-85
+15    <uses-permission android:name="android.permission.WAKE_LOCK" />
+15-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:7:5-68
+15-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:7:22-65
+16    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+16-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:8:5-85
+16-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:8:22-82
+17    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+17-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:5-83
+17-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:22-80
+18
+19    <permission
+19-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
+20        android:name="com.example.apnea.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+20-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
+21        android:protectionLevel="signature" />
+21-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
 22
-23    <application
-23-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:5-20:19
-24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-24-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
-25        android:debuggable="true"
-26        android:extractNativeLibs="true"
-27        android:label="Apnoe Edge AI"
-27-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:18-47
-28        android:theme="@style/Theme.ApneaApp" >
-28-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:48-85
-29        <service
-29-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:10:9-12:44
-30            android:name="com.example.apnea.ApneaMonitoringService"
-30-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:10:18-56
-31            android:exported="true"
-31-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:12:18-41
-32            android:foregroundServiceType="microphone" />
-32-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:18-60
-33
-34        <activity
-34-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:13:9-18:20
-35            android:name="com.example.apnea.MainActivity"
-35-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:13:19-47
-36            android:exported="true" >
-36-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:13:48-71
-37            <intent-filter>
-37-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:14:13-17:29
-38                <action android:name="android.intent.action.MAIN" />
-38-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:15:17-69
-38-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:15:25-66
-39
-40                <category android:name="android.intent.category.LAUNCHER" />
-40-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:16:17-77
-40-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:16:27-74
-41            </intent-filter>
-42        </activity>
-43        <activity
-43-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:19:9-79
-44            android:name="com.example.apnea.AnalysisActivity"
-44-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:19:19-51
-45            android:exported="false" />
-45-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:19:52-76
-46
-47        <provider
-47-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-48            android:name="androidx.startup.InitializationProvider"
-48-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-49            android:authorities="com.example.apnea.androidx-startup"
-49-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-50            android:exported="false" >
-50-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-51            <meta-data
-51-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-52                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-52-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-53                android:value="androidx.startup" />
-53-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
-54            <meta-data
-54-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-55                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-55-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
-56                android:value="androidx.startup" />
-56-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-57        </provider>
-58    </application>
-59
-60</manifest>
+23    <uses-permission android:name="com.example.apnea.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+23-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
+23-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+24
+25    <application
+25-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-22:19
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
+27        android:debuggable="true"
+28        android:extractNativeLibs="true"
+29        android:label="Apnoe Edge AI"
+29-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:18-47
+30        android:theme="@style/Theme.ApneaApp" >
+30-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:48-85
+31        <service
+31-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:12:9-14:44
+32            android:name="com.example.apnea.ApneaMonitoringService"
+32-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:12:18-56
+33            android:exported="true"
+33-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:14:18-41
+34            android:foregroundServiceType="microphone" />
+34-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:13:18-60
+35
+36        <activity
+36-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:15:9-20:20
+37            android:name="com.example.apnea.MainActivity"
+37-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:15:19-47
+38            android:exported="true" >
+38-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:15:48-71
+39            <intent-filter>
+39-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:16:13-19:29
+40                <action android:name="android.intent.action.MAIN" />
+40-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:17:17-69
+40-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:17:25-66
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:18:17-77
+42-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:18:27-74
+43            </intent-filter>
+44        </activity>
+45        <activity
+45-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:9-79
+46            android:name="com.example.apnea.AnalysisActivity"
+46-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:19-51
+47            android:exported="false" />
+47-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:52-76
+48
+49        <provider
+49-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+50            android:name="androidx.startup.InitializationProvider"
+50-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+51            android:authorities="com.example.apnea.androidx-startup"
+51-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+52            android:exported="false" >
+52-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+53            <meta-data
+53-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+54                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+54-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+55                android:value="androidx.startup" />
+55-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+56            <meta-data
+56-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+57                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+57-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+58                android:value="androidx.startup" />
+58-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+59        </provider>
+60    </application>
+61
+62</manifest>

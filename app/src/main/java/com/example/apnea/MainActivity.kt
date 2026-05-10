@@ -6,6 +6,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,47 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         LocalBroadcastManager.getInstance(this).registerReceiver(statusReceiver, IntentFilter("APNEA_STATUS_UPDATE"))
+        
+        checkForUpdates()
+    }
+
+    private fun checkForUpdates() {
+        Thread {
+            try {
+                val url = java.net.URL("https://api.github.com/repos/bartman081523/Schlafapnoe-Wachter/releases/latest")
+                val conn = url.openConnection() as java.net.HttpURLConnection
+                conn.requestMethod = "GET"
+                conn.setRequestProperty("Accept", "application/vnd.github.v3+json")
+                
+                if (conn.responseCode == 200) {
+                    val response = conn.inputStream.bufferedReader().use { it.readText() }
+                    val json = org.json.JSONObject(response)
+                    val latestTag = json.getString("tag_name")
+                    val currentVersion = "v0.1.5" // Build-Version
+                    
+                    if (latestTag > currentVersion) {
+                        val downloadUrl = json.getJSONArray("assets").getJSONObject(0).getString("browser_download_url")
+                        runOnUiThread {
+                            showUpdateDialog(latestTag, downloadUrl)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("ApneaApp", "Update check failed", e)
+            }
+        }.start()
+    }
+
+    private fun showUpdateDialog(tag: String, url: String) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Update Verfügbar: $tag")
+            .setMessage("Eine neue Version der App ist verfügbar. Möchten Sie die APK jetzt herunterladen?")
+            .setPositiveButton("Download") { _, _ ->
+                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/bartman081523/Schlafapnoe-Wachter/releases/latest"))
+                startActivity(intent)
+            }
+            .setNegativeButton("Später", null)
+            .show()
     }
 
     private val statusReceiver = object : BroadcastReceiver() {

@@ -32,23 +32,45 @@ class AnalysisActivity : AppCompatActivity() {
         val apneaData = ArrayList<Float>()
         var alarmCount = 0
         var totalLines = 0
+        
+        // Heuristik für alte Versionen: Zähle Phasen mit extrem hohem Apnoe-Score (>0.9) 
+        // als potenziellen Alarm, falls kein ALARM_START Event gefunden wird.
+        var legacyApneaCounter = 0
+        var legacyAlarmsHeuristic = 0
 
         try {
             BufferedReader(FileReader(file)).use { br ->
-                br.readLine() // skip header
+                val header = br.readLine() // Read header
                 var line = br.readLine()
                 while (line != null) {
-                    val tokens = line.split(",")
-                    if (tokens.size >= 6) {
-                        val eventType = tokens[1]
-                        if (eventType == "ALARM_START") {
-                            alarmCount++
-                        } else if (eventType == "ML_BG" || eventType == "ML_TRIGGER") {
-                            val snore = tokens[2].toFloatOrNull() ?: 0f
-                            val apnea = tokens[3].toFloatOrNull() ?: 0f
-                            snoreData.add(snore)
-                            apneaData.add(apnea)
+                    try {
+                        val tokens = line.split(",")
+                        if (tokens.size >= 2) {
+                            val eventType = tokens[1]
+                            
+                            if (eventType == "ALARM_START") {
+                                alarmCount++
+                            } else if (eventType.startsWith("ML_") || tokens.size >= 6) {
+                                // Versuche Scores zu extrahieren (Robust gegen fehlende Spalten)
+                                val snore = if (tokens.size > 2) tokens[2].toFloatOrNull() ?: 0f else 0f
+                                val apnea = if (tokens.size > 3) tokens[3].toFloatOrNull() ?: 0f else 0f
+                                
+                                snoreData.add(snore)
+                                apneaData.add(apnea)
+                                
+                                // Heuristik für alte Logs
+                                if (apnea > 0.95f) {
+                                    legacyApneaCounter++
+                                } else {
+                                    if (legacyApneaCounter >= 2) { // min 10s hohe Konfidenz
+                                        legacyAlarmsHeuristic++
+                                    }
+                                    legacyApneaCounter = 0
+                                }
+                            }
                         }
+                    } catch (e: Exception) {
+                        // Überspringe korrupte Zeilen
                     }
                     totalLines++
                     line = br.readLine()
@@ -58,23 +80,26 @@ class AnalysisActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        tvSummary.text = "Datenpunkte: $totalLines\nAusgelöste Alarme: $alarmCount"
+        // Falls keine echten ALARM_START Events da sind (Legacy), nimm die Heuristik
+        val finalAlarmCount = if (alarmCount > 0) alarmCount else legacyAlarmsHeuristic
+        val isLegacy = alarmCount == 0 && legacyAlarmsHeuristic > 0
+
+        tvSummary.text = "Datenpunkte: $totalLines\nAusgelöste Alarme: $finalAlarmCount" + 
+                        (if (isLegacy) " (geschätzt aus Rohdaten)" else "")
         
-        // Reduziere Datenmenge für den Graph, falls zu viele (e.g. max 1000 Punkte)
         val factor = (snoreData.size / 1000).coerceAtLeast(1)
         val displaySnore = snoreData.filterIndexed { index, _ -> index % factor == 0 }
         val displayApnea = apneaData.filterIndexed { index, _ -> index % factor == 0 }
         
         chartView.setData(displaySnore, displayApnea)
 
-        // Generiere Hinweise
         var hints = "Hinweise zur Optimierung:\n"
-        if (alarmCount == 0) {
-            hints += "- Keine Alarme erkannt. Falls Sie Atemaussetzer hatten, reduzieren Sie die 'Stille-Schwelle' (RMS) in den Einstellungen.\n"
-        } else if (alarmCount > 15) {
-            hints += "- Sehr viele Alarme ($alarmCount). Möglicherweise ist die App zu empfindlich. Erhöhen Sie die 'Atempause bis Alarm' oder die 'Stille-Schwelle'.\n"
+        if (finalAlarmCount == 0) {
+            hints += "- Keine Alarme erkannt. Falls Sie Atemaussetzer hatten, reduzieren Sie die 'Stille-Schwelle' (RMS).\n"
+        } else if (finalAlarmCount > 15) {
+            hints += "- Sehr viele Alarme ($finalAlarmCount). Möglicherweise ist die App zu empfindlich.\n"
         } else {
-            hints += "- Alarmanzahl ($alarmCount) im erwarteten Rahmen für unbehandelte Apnoe. Beobachten Sie den Trend.\n"
+            hints += "- Alarmanzahl ($finalAlarmCount) im erwarteten Rahmen für unbehandelte Apnoe.\n"
         }
         
         tvHints.text = hints
