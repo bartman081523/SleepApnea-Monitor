@@ -42,7 +42,7 @@
 23-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
 24
 25    <application
-25-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-22:19
+25-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-23:19
 26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 26-->[androidx.core:core:1.10.1] /home/julian/.gradle/caches/transforms-4/f546b99f2a7b87decf8dbf83b1d09cd1/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
 27        android:debuggable="true"
@@ -83,28 +83,34 @@
 46-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:19-51
 47            android:exported="false" />
 47-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:52-76
-48
-49        <provider
-49-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-50            android:name="androidx.startup.InitializationProvider"
-50-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-51            android:authorities="com.example.apnea.androidx-startup"
-51-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-52            android:exported="false" >
-52-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-53            <meta-data
-53-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-54                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-54-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-55                android:value="androidx.startup" />
-55-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+48        <activity
+48-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:9-84
+49            android:name="com.example.apnea.QuestionnaireActivity"
+49-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:19-56
+50            android:exported="false" />
+50-->/run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:57-81
+51
+52        <provider
+52-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+53            android:name="androidx.startup.InitializationProvider"
+53-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+54            android:authorities="com.example.apnea.androidx-startup"
+54-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+55            android:exported="false" >
+55-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
 56            <meta-data
-56-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-57                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-57-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+56-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+57                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+57-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
 58                android:value="androidx.startup" />
-58-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-59        </provider>
-60    </application>
-61
-62</manifest>
+58-->[androidx.emoji2:emoji2:1.2.0] /home/julian/.gradle/caches/transforms-4/55fe33e74f8313b19570f46ec182de4d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+59            <meta-data
+59-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+60                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+60-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+61                android:value="androidx.startup" />
+61-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/julian/.gradle/caches/transforms-4/c27e8a047f019fbcae6534681681927f/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+62        </provider>
+63    </application>
+64
+65</manifest>

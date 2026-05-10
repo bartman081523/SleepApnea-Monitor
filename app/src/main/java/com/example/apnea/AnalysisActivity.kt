@@ -22,10 +22,10 @@ class AnalysisActivity : AppCompatActivity() {
         val btnApply = findViewById<android.widget.Button>(R.id.btnApplyRecommendation)
         val chartView = findViewById<ApneaChartView>(R.id.apneaChartView)
         
-        tvTitle.text = "Auswertung: ${file.name}"
+        tvTitle.text = getString(R.string.analysis_title, file.name)
 
         if (!file.exists()) {
-            tvSummary.text = "CSV Datei nicht gefunden."
+            tvSummary.text = getString(R.string.analysis_not_found)
             return
         }
 
@@ -84,9 +84,9 @@ class AnalysisActivity : AppCompatActivity() {
         val finalAlarmCount = if (alarmCount > 0) alarmCount else legacyAlarmsHeuristic
         val isLegacy = alarmCount == 0 && legacyAlarmsHeuristic > 0
 
-        tvSummary.text = "Datenpunkte: $totalLines\nAusgelöste Alarme: $finalAlarmCount" + 
-                        (if (isLegacy) " (geschätzt)" else "") +
-                        (if (isTestModeFile) " [TESTLAUF]" else "")
+        tvSummary.text = getString(R.string.analysis_datapoints, totalLines, finalAlarmCount) + 
+                        (if (isLegacy) getString(R.string.analysis_estimated) else "") +
+                        (if (isTestModeFile) getString(R.string.analysis_test_run) else "")
         
         val factor = (snoreData.size / 1000).coerceAtLeast(1)
         chartView.setData(
@@ -95,20 +95,20 @@ class AnalysisActivity : AppCompatActivity() {
         )
 
         // RECOMMENDATION BRAIN
-        var hints = "Hinweise zur Optimierung:\n"
+        var hints = getString(R.string.analysis_hints_title)
         var recommendedSilChange = 0
         
         if (isTestModeFile) {
-            hints += "- Dies war ein Testlauf. Keine automatische Optimierung empfohlen.\n"
+            hints += getString(R.string.analysis_hint_test)
         } else {
             if (finalAlarmCount == 0) {
-                hints += "- Keine Alarme erkannt. Falls Sie Aussetzer hatten, senken Sie die Stille-Schwelle.\n"
+                hints += getString(R.string.analysis_hint_no_alarms)
                 recommendedSilChange = -50
             } else if (finalAlarmCount > 15) {
-                hints += "- Sehr viele Alarme ($finalAlarmCount). Möglicherweise zu empfindlich.\n"
+                hints += getString(R.string.analysis_hint_too_many, finalAlarmCount)
                 recommendedSilChange = 50
             } else {
-                hints += "- Optimale Alarmanzahl ($finalAlarmCount).\n"
+                hints += getString(R.string.analysis_hint_optimal, finalAlarmCount)
             }
         }
 
@@ -122,7 +122,7 @@ class AnalysisActivity : AppCompatActivity() {
                 prefs.edit().putInt("silence", newSil).apply()
                 MainActivity.sil = newSil
                 
-                android.widget.Toast.makeText(this, "Optimiert auf $newSil RMS", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(this, getString(R.string.toast_optimized, newSil), android.widget.Toast.LENGTH_SHORT).show()
                 btnApply.visibility = android.view.View.GONE
             }
         }

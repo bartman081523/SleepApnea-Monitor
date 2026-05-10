@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analysis_datapoints">Data points: %1$d\nTriggered Alarms: %2$d</string>
+    <string name="analysis_estimated"> (estimated)</string>
+    <string name="analysis_hint_no_alarms">- No alarms detected. If you had apneas, lower the silence threshold.\n</string>
+    <string name="analysis_hint_optimal">- Optimal number of alarms (%1$d).\n</string>
+    <string name="analysis_hint_test">- This was a test run. No automatic optimization recommended.\n</string>
+    <string name="analysis_hint_too_many">- Very many alarms (%1$d). App might be too sensitive.\n</string>
+    <string name="analysis_hints_title">Optimization Hints:\n</string>
+    <string name="analysis_not_found">CSV file not found.</string>
+    <string name="analysis_test_run"> [TEST RUN]</string>
+    <string name="analysis_title">Analysis: %1$s</string>
+    <string name="app_name">Apnea Monitor</string>
+    <string name="btn_apply_recommendation">Apply Recommendations</string>
+    <string name="btn_end">End Questionnaire</string>
+    <string name="btn_exit">Exit</string>
+    <string name="btn_no">No</string>
+    <string name="btn_reset">Reset Defaults</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_start">Start Monitoring</string>
+    <string name="btn_stop">Stop Service</string>
+    <string name="btn_stop_alarm">Stop Alarm</string>
+    <string name="btn_test">Test Mode</string>
+    <string name="btn_yes">Yes</string>
+    <string name="history_no_data">No recordings found</string>
+    <string name="history_title">Recorded Nights</string>
+    <string name="q_prompt">How was your night?</string>
+    <string name="q_q1">Did you get woken up too often?</string>
+    <string name="q_q2">Was the alarm tone too loud?</string>
+    <string name="q_q3">Were there alarms even though you weren\'t snoring?</string>
+    <string name="q_title">Morning Feedback</string>
+    <string name="settings_alarm_duration">Alarm Duration (s)</string>
+    <string name="settings_cooldown">Cooldown (m)</string>
+    <string name="settings_silence">Silence Threshold (RMS)</string>
+    <string name="settings_snore">Snore Threshold (RMS)</string>
+    <string name="settings_trigger">Trigger Duration (s)</string>
+    <string name="settings_volume">Alarm Volume</string>
+    <string name="status_ready">READY</string>
+    <string name="status_stopped">Stopped...</string>
+    <string name="switch_auto_record">Auto-record Audio</string>
+    <string name="tab_dashboard">DASHBOARD</string>
+    <string name="tab_history">HISTORY</string>
+    <string name="tab_settings">SETTINGS</string>
+    <string name="toast_optimized">Optimized to %1$d RMS</string>
+</resources>

@@ -241,6 +241,10 @@ class SettingsFragment : Fragment() {
             override fun onReceive(c: Context?, i: Intent?) { refresh() }
         }, IntentFilter("UI_REFRESH"))
 
+        view.findViewById<Button>(R.id.btnStartQuestionnaire).setOnClickListener {
+            startActivity(Intent(context, QuestionnaireActivity::class.java))
+        }
+
         view.findViewById<Button>(R.id.btnResetSettings).setOnClickListener {
             MainActivity.vol = 50; MainActivity.sil = 250; MainActivity.sno = 1200
             MainActivity.tri = 12; MainActivity.coo = 3; MainActivity.alarmDur = 3

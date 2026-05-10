@@ -20,4 +20,29 @@
     <string name="btn_reset">Standardwerte</string>
     <string name="history_title">Aufgezeichnete Nächte</string>
     <string name="history_no_data">Keine Aufnahmen gefunden</string>
+
+    <string name="analysis_title">Auswertung: %1$s</string>
+    <string name="analysis_not_found">CSV Datei nicht gefunden.</string>
+    <string name="analysis_datapoints">Datenpunkte: %1$d\nAusgelöste Alarme: %2$d</string>
+    <string name="analysis_estimated"> (geschätzt)</string>
+    <string name="analysis_test_run"> [TESTLAUF]</string>
+    <string name="analysis_hints_title">Hinweise zur Optimierung:\n</string>
+    <string name="analysis_hint_test">- Dies war ein Testlauf. Keine automatische Optimierung empfohlen.\n</string>
+    <string name="analysis_hint_no_alarms">- Keine Alarme erkannt. Falls Sie Aussetzer hatten, senken Sie die Stille-Schwelle.\n</string>
+    <string name="analysis_hint_too_many">- Sehr viele Alarme (%1$d). Möglicherweise zu empfindlich.\n</string>
+    <string name="analysis_hint_optimal">- Optimale Alarmanzahl (%1$d).\n</string>
+    <string name="btn_apply_recommendation">Empfehlungen übernehmen</string>
+    <string name="toast_optimized">Optimiert auf %1$d RMS</string>
+
+    <string name="settings_alarm_duration">Alarm Dauer (s)</string>
+
+    <string name="q_title">Morgen-Feedback</string>
+    <string name="q_prompt">Wie war die Nacht?</string>
+    <string name="q_q1">Wurden Sie zu oft geweckt?</string>
+    <string name="q_q2">War der Alarmton zu laut?</string>
+    <string name="q_q3">Gab es Alarme, obwohl Sie nicht geschnarcht haben?</string>
+    <string name="btn_yes">Ja</string>
+    <string name="btn_no">Nein</string>
+    <string name="btn_skip">Überspringen</string>
+    <string name="btn_end">Fragebogen beenden</string>
 </resources>

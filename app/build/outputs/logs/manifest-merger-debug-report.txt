@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-23:12
-INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-23:12
-INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-23:12
-INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-23:12
+ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-24:12
+INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-24:12
+INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-24:12
+INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:1:1-24:12
 MERGED from [com.google.android.material:material:1.9.0] /home/julian/.gradle/caches/transforms-4/b88f7a67cedacc3fa646299ed954e85f/transformed/material-1.9.0/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /home/julian/.gradle/caches/transforms-4/8bf13dac3088fbb54bfd3f38a620143d/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/julian/.gradle/caches/transforms-4/3abe8ef187298fd52ba97cfe10a7720f/transformed/constraintlayout-2.0.1/AndroidManifest.xml:2:1-11:12
@@ -87,8 +87,8 @@ ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/
 	android:name
 		ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:9:22-80
 application
-ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-22:19
-INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-22:19
+ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-23:19
+INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:11:5-23:19
 MERGED from [com.google.android.material:material:1.9.0] /home/julian/.gradle/caches/transforms-4/b88f7a67cedacc3fa646299ed954e85f/transformed/material-1.9.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.9.0] /home/julian/.gradle/caches/transforms-4/b88f7a67cedacc3fa646299ed954e85f/transformed/material-1.9.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/julian/.gradle/caches/transforms-4/3abe8ef187298fd52ba97cfe10a7720f/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
@@ -147,6 +147,12 @@ ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/
 		ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:52-76
 	android:name
 		ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:21:19-51
+activity#com.example.apnea.QuestionnaireActivity
+ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:9-84
+	android:exported
+		ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:57-81
+	android:name
+		ADDED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml:22:19-56
 uses-sdk
 INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /run/media/julian/ML3/Schlafapnoe_Projekt/android_app_production/app/src/main/AndroidManifest.xml

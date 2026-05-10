@@ -45,6 +45,9 @@
         <activity
             android:name="com.example.apnea.AnalysisActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.apnea.QuestionnaireActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

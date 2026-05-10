@@ -8,8 +8,8 @@
         "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-30:/layout/fragment_settings.xml"
     },
     {
-        "merged": "com.example.apnea.app-merged_res-28:/layout_fragment_history.xml.flat",
-        "source": "com.example.apnea.app-main-30:/layout/fragment_history.xml"
+        "merged": "com.example.apnea.app-merged_res-28:/layout_activity_questionnaire.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/activity_questionnaire.xml"
     },
     {
         "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-28:/layout_activity_main.xml.flat",
@@ -22,5 +22,9 @@
     {
         "merged": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-merged_res-28:/layout_activity_analysis.xml.flat",
         "source": "/home/julian/.gradle/daemon/8.7/com.example.apnea.app-main-30:/layout/activity_analysis.xml"
+    },
+    {
+        "merged": "com.example.apnea.app-merged_res-28:/layout_fragment_settings.xml.flat",
+        "source": "com.example.apnea.app-main-30:/layout/fragment_settings.xml"
     }
 ]

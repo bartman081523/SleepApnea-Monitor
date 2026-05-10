@@ -46,7 +46,12 @@ class ApneaMonitoringService : Service(), SensorEventListener {
     private var alarmDurationMs = 3000L
     private var isAlarmRunning = false
 
+    private var apneaWeightOffset = 0f
+    private var serviceStartTime = 0L
+    private var questionnaireTriggered = false
+
     private val ML_INPUT_SIZE = 80000 
+
     private var mlInterpreter: org.tensorflow.lite.Interpreter? = null
     private val classes = arrayOf("Snore", "Apnea", "Noise", "Media")
 
@@ -104,8 +109,14 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         cooldownMs = intent?.getLongExtra("EXTRA_COOLDOWN", 3 * 60 * 1000L) ?: (3 * 60 * 1000L)
         alarmDurationMs = intent?.getLongExtra("EXTRA_ALARM_DURATION", 3000L) ?: 3000L
 
+        val prefs = getSharedPreferences("ApneaPrefs", Context.MODE_PRIVATE)
+        apneaWeightOffset = prefs.getFloat("apnea_weight_offset", 0f)
+        serviceStartTime = System.currentTimeMillis()
+        questionnaireTriggered = false
+
         startForeground(1, createNotification())
         startMonitoring()
+
         
         return START_STICKY
     }
@@ -230,10 +241,12 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         } catch (e: Exception) {}
 
         val confirmThresh = if (isTestMode) 0.15f else 0.80f
+        val effectiveApneaThresh = 0.40f + apneaWeightOffset
+        
         if (snoreScore > confirmThresh) {
             lastSnoreTime = System.currentTimeMillis()
             sendStatusUpdate("AKTIV", "Schnarchen (KI)")
-        } else if (apneaScore > 0.40f && !isAlarmRunning && (System.currentTimeMillis() - lastSnoreTime < 60000L)) {
+        } else if (apneaScore > effectiveApneaThresh && !isAlarmRunning && (System.currentTimeMillis() - lastSnoreTime < 60000L)) {
             triggerIntervention("ML Distress erkannt")
         }
     }
@@ -265,7 +278,8 @@ class ApneaMonitoringService : Service(), SensorEventListener {
             csvOutputStream?.write(("$timestamp,ML_TRIGGER,${String.format(java.util.Locale.US, "%.3f", snoreScore)},${String.format(java.util.Locale.US, "%.3f", apneaScore)},${String.format(java.util.Locale.US, "%.3f", noiseScore)},${String.format(java.util.Locale.US, "%.3f", mediaScore)}\n").toByteArray())
         } catch (e: Exception) {}
 
-        if (apneaScore > 0.40f && mediaScore < 0.15f) {
+        val effectiveApneaThresh = 0.40f + apneaWeightOffset
+        if (apneaScore > effectiveApneaThresh && mediaScore < 0.15f) {
             triggerIntervention("ML: Apnoe bestätigt")
         }
     }
@@ -322,8 +336,37 @@ class ApneaMonitoringService : Service(), SensorEventListener {
         if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             val x = event.values[0]; val y = event.values[1]; val z = event.values[2]
             val accel = sqrt(x*x + y*y + z*z)
-            if (accel > 11.5) lastMovementTime = System.currentTimeMillis()
+            if (accel > 11.5) {
+                lastMovementTime = System.currentTimeMillis()
+                
+                // Trigger Questionnaire if monitored > 3h and not already triggered
+                val duration = System.currentTimeMillis() - serviceStartTime
+                if (duration > 3 * 60 * 60 * 1000L && !questionnaireTriggered && !isTestMode) {
+                    questionnaireTriggered = true
+                    showQuestionnaireNotification()
+                }
+            }
         }
+    }
+
+    private fun showQuestionnaireNotification() {
+        val channelId = "ApneaServiceChannel"
+        val intent = Intent(this, QuestionnaireActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle(getString(R.string.q_title))
+            .setContentText(getString(R.string.q_prompt))
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(2, notification)
     }
 
     override fun onAccuracyChanged(s: Sensor?, a: Int) {}

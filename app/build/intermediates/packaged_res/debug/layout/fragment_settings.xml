@@ -35,7 +35,7 @@
         <com.google.android.material.card.MaterialCardView style="@style/Style.ApneaCard" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Alarm Dauer" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/settings_alarm_duration" android:textSize="16sp" android:textStyle="bold"/>
                     <TextView android:id="@+id/txtAlarmDurVal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3s" android:textStyle="bold" android:textColor="@color/primaryColor" android:textSize="16sp"/>
                 </LinearLayout>
                 <SeekBar android:id="@+id/alarmDurSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:min="1" android:max="15" android:progress="3" android:layout_marginTop="16dp"/>
@@ -85,6 +85,14 @@
                 <SeekBar android:id="@+id/cooldownSeekBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:min="1" android:max="60" android:progress="15" android:layout_marginTop="16dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartQuestionnaire"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/q_title"
+            android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnResetSettings"
